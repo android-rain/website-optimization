@@ -28,6 +28,8 @@ var browserSync = require('browser-sync');
 var pagespeed = require('psi');
 var reload = browserSync.reload;
 var ngrok = require('ngrok');
+var imagemin = require('gulp-imagemin');
+var sass = require('gulp-sass');
 var site = '';
 
 // Lint JavaScript
@@ -39,11 +41,23 @@ gulp.task('jshint', function() {
     .pipe($.if(!browserSync.active, $.jshint.reporter('fail')));
 });
 
+// Convert Scss to css
+gulp.task('sass', function() {
+  return gulp.src('app/sass/*.scss')
+    .pipe(sass().on('error', sass.logError))
+    .pipe(gulp.dest('dist/css'));
+});
 // Optimize Images
 gulp.task('images', function() {
   return gulp.src('app/img/*')
     .pipe(gulp.dest('dist/img'))
     .pipe($.size({title: 'images'}));
+});
+gulp.task('imagemin', function() {
+  return gulp.src('app/img/*')
+      .pipe(imagemin())
+      .pipe(gulp.dest('dist/img'))
+      .pipe($.size({title: 'images'}));
 });
 
 // Copy All Files At The Root Level (app)

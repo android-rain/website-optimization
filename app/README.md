@@ -55,3 +55,6 @@
 
 * <a href="http://getbootstrap.com/css/">Bootstrap CSS</a>
 * <a href="http://getbootstrap.com/components/">Bootstrap组件</a>
+将views中的pizza移动到根目录下
+所有图片本地化
+压缩图片
