@@ -479,11 +479,7 @@ var resizePizzas = function(size) {
 
 window.performance.mark("mark_start_generating"); // 收集timing数据
 
-// 这个for循环在页面加载时创建并插入了所有的披萨
-for (var i = 2; i < 100; i++) {
-  var pizzasDiv = document.getElementById("randomPizzas");
-  pizzasDiv.appendChild(pizzaElementGenerator(i));
-}
+
 
 // 使用User Timing API。这里的测量数据告诉了你生成初始的披萨用了多长时间
 window.performance.mark("mark_end_generating");
@@ -539,6 +535,11 @@ window.addEventListener('scroll', updatePositions);
 document.addEventListener('DOMContentLoaded', function() {
   var cols = 8;
   var s = 256;
+  // 这个for循环在页面加载时创建并插入了所有的披萨
+  var pizzasDiv = document.getElementById("randomPizzas");
+  for (var i = 2; i < 100; i++) {
+    pizzasDiv.appendChild(pizzaElementGenerator(i));
+  }
   for (var i = 0; i < 200; i++) {
     var elem = document.createElement('img');
     elem.className = 'mover';

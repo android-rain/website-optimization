@@ -7,3 +7,4 @@ Leverage browser caching，放弃尝试，这个应该在服务器端配置
 Enable compression，已经使用gulp插件最小化了html和css文件，google还提示压缩？
 删除main.js中的determineDx函数，避免改变披萨尺寸时的强制同步布局
 修复披萨滑窗在chrome canary中无效的bug
+暂时放弃使用gzip压缩文件

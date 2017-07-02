@@ -68,6 +68,7 @@ gulp.task('copy', function() {
 // Copy All Filescopy-workerscripts At The Root Level (app)
 gulp.task('copy-workerscripts', function() {
   return gulp.src('app/js/*.js')
+    .pipe($.uglify())
     .pipe(gulp.dest('dist/js/'))
     .pipe($.size({title: 'copy-workerscripts'}));
 });
