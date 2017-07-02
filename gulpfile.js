@@ -28,8 +28,6 @@ var browserSync = require('browser-sync');
 var pagespeed = require('psi');
 var reload = browserSync.reload;
 var ngrok = require('ngrok');
-var imagemin = require('gulp-imagemin');
-var sass = require('gulp-sass');
 var site = '';
 
 // Lint JavaScript
@@ -41,12 +39,7 @@ gulp.task('jshint', function() {
     .pipe($.if(!browserSync.active, $.jshint.reporter('fail')));
 });
 
-// Convert Scss to css
-gulp.task('sass', function() {
-  return gulp.src('app/sass/*.scss')
-    .pipe(sass().on('error', sass.logError))
-    .pipe(gulp.dest('dist/css'));
-});
+
 // Optimize Images
 gulp.task('images', function() {
   return gulp.src('app/img/*')
@@ -55,7 +48,7 @@ gulp.task('images', function() {
 });
 gulp.task('imagemin', function() {
   return gulp.src('app/img/*')
-      .pipe(imagemin())
+      .pipe($.imagemin())
       .pipe(gulp.dest('dist/img'))
       .pipe($.size({title: 'images'}));
 });
@@ -77,13 +70,6 @@ gulp.task('copy-workerscripts', function() {
   return gulp.src('app/js/*.js')
     .pipe(gulp.dest('dist/js/'))
     .pipe($.size({title: 'copy-workerscripts'}));
-});
-
-// Copy image files from the img
-gulp.task('styleguide-images', function() {
-  return gulp.src('app/img/*.{svg,png,jpg}')
-    .pipe(gulp.dest('dist/img/'))
-    .pipe($.size({title: 'styleguide-images'}));
 });
 
 // Copy Web Fonts To Dist
@@ -110,8 +96,8 @@ gulp.task('styles', function() {
 
   // For best performance, don't add Sass partials to `gulp.src`
   return gulp.src([
-    'app/**/*.scss',
-    'app/styles/**/*.css'
+    'app/sass/*.scss',
+    'app/css/*.css'
   ])
     .pipe($.changed('styles', {extension: '.scss'}))
     .pipe($.sass({
@@ -119,10 +105,10 @@ gulp.task('styles', function() {
       onError: console.error.bind(console, 'Sass error:')
     }))
     .pipe($.autoprefixer(AUTOPREFIXER_BROWSERS))
-    .pipe(gulp.dest('.tmp'))
+    .pipe(gulp.dest('app/.tmp'))
     // Concatenate And Minify Styles
     .pipe($.if('*.css', $.csso()))
-    .pipe(gulp.dest('dist'))
+    .pipe(gulp.dest('dist/css/'))
     .pipe($.size({title: 'styles'}));
 });
 
@@ -149,7 +135,6 @@ gulp.task('html', function() {
     .pipe($.if('*.css', $.uncss({
       html: [
         'app/index.html',
-        'app/styleguide.html'
       ],
       // CSS Selectors for UnCSS to ignore
       ignore: []
@@ -168,7 +153,7 @@ gulp.task('html', function() {
 });
 
 // Clean Output Directory
-gulp.task('clean', del.bind(null, ['.tmp', 'dist/*', '!dist/.git'], {dot: true}));
+gulp.task('clean', del.bind(null, ['.tmp', 'dist/*',  '!dist/img','!dist/.git'], {dot: true}));
 
 // Watch Files For Changes & Reload
 gulp.task('serve', ['styles'], function() {
@@ -184,7 +169,7 @@ gulp.task('serve', ['styles'], function() {
   });
 
   gulp.watch(['app/*.html'], reload);
-  gulp.watch(['app/**/**/**/*.{scss,css}'], ['styles', reload]);
+  gulp.watch(['app/**/*.{scss,css}'], ['styles', reload]);
   gulp.watch(['app/js/*.js',], ['jshint']);
   gulp.watch(['app/img/*'], reload);
 });
@@ -198,13 +183,22 @@ gulp.task('serve:dist', ['default'], function() {
     //       will present a certificate warning in the browser.
     // https: true,
     server: 'dist',
-    baseDir: "dist"
+    baseDir: "dist",
+    port: 80
   });
 });
 
+  // Run ngrok
+  gulp.task('ngrok-url', function(cb) {
+    return ngrok.connect(80, function (err, url) {
+      site = url;
+      console.log('serving your tunnel from: ' + site);
+      cb();
+    });
+  });
 // Build Production Files, the Default Task
-gulp.task('default', ['clean'], function(cb) {
-  runSequence('styles', ['html', 'scripts', 'images', 'styleguide-images', 'fonts', 'copy', 'copy-workerscripts'], cb);
+gulp.task('default', ['ngrok-url', 'clean'], function(cb) {
+  runSequence('styles', ['html', 'copy-workerscripts'], cb);
 });
 
 // Run PageSpeed Insights
@@ -217,38 +211,31 @@ gulp.task('default', ['clean'], function(cb) {
 //   url: 'https://da10c93a.ngrok.io',
 //   strategy: 'mobile'
 // }));
-  gulp.task('pagespeed', function() {
-    return pagespeed(site, {
-        // key: key
-        nokey: 'true',
-        strategy: 'mobile',
-    }).then(function (data) {
-        console.log('Speed score: ' + data.ruleGroups.SPEED.score);
-        console.log('Usability score: ' + data.ruleGroups.USABILITY.score);
-    });
-  });
-  // Run ngrok
-  gulp.task('ngrok-url', function(cb) {
-    return ngrok.connect(80, function (err, url) {
-      site = url;
-      console.log('serving your tunnel from: ' + site);
-      cb();
-    });
-  });
+  // gulp.task('pagespeed', function() {
+  //   return pagespeed(site, {
+  //       // key: key
+  //       nokey: 'true',
+  //       strategy: 'mobile',
+  //   }).then(function (data) {
+  //       console.log('Speed score: ' + data.ruleGroups.SPEED.score);
+  //       console.log('Usability score: ' + data.ruleGroups.USABILITY.score);
+  //   });
+  // });
+
 
   // psi-sequence
-  gulp.task('psi-seq', function (cb) {
-    return runSequence(
-      'ngrok-url',
-      'pagespeed',
-      cb
-      );
-  });
+  // gulp.task('psi-seq', function (cb) {
+  //   return runSequence(
+  //     'ngrok-url',
+  //     'pagespeed',
+  //     cb
+  //     );
+  // });
 
   // exit out of the sequence once it was complete
-  gulp.task('psi', ['psi-seq'], function(){
-    console.log('Woohoo! Check out your page speed scores!');
-    process.exit();
-  });
+  // gulp.task('psi', ['psi-seq'], function(){
+  //   console.log('Woohoo! Check out your page speed scores!');
+  //   process.exit();
+  // });
 // Load custom tasks from the `tasks` directory
 // try { require('require-dir')('tasks'); } catch (err) { console.error(err); }
