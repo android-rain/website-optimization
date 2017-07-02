@@ -422,7 +422,7 @@ var resizePizzas = function(size) {
    // 这个函数很逗，返回新尺寸和旧尺寸的百分比差值，在下一个函数中又用这个差值加上旧尺寸，
    // 重新得到新尺寸。整个过程，单位从px变成%，又变成px，导师实在很努力。
    // 修改： 删除此函数，尺寸调节放到下一个函数
-  function determineDx (elem, size) {
+/*  function determineDx (elem, size) {
     var oldWidth = elem.offsetWidth;
     var windowWidth = document.querySelector("#randomPizzas").offsetWidth;
     var oldSize = oldWidth / windowWidth;
@@ -445,7 +445,7 @@ var resizePizzas = function(size) {
     var dx = (newSize - oldSize) * windowWidth;
 
     return dx;
-  }
+  }*/
 
   // 遍历披萨的元素并改变它们的宽度
   function changePizzaSizes(size) {
@@ -453,11 +453,11 @@ var resizePizzas = function(size) {
     var newwidth = 0;
     switch(size) {
       case "1":
-        newwidth = 25;
+        newwidth = 25;break;
       case "2":
-        newwidth = 33.33;
+        newwidth = 33.33;break;
       case "3":
-        newwidth = 50;
+        newwidth = 50;break;
       default:
         console.log("bug in sizeSwitcher");
     }
