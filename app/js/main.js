@@ -515,9 +515,13 @@ function updatePositions() {
 
   var items = document.querySelectorAll('.mover');
   for (var i = 0; i < items.length; i++) {
-    var phase = Math.sin((document.body.scrollTop / 1250) + (i % 5));
+    var phase = Math.sin(((document.body.scrollTop
+      + document.documentElement.scrollTop)/ 1250) + (i % 5));
     items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
+    if (i === 0)
+      console.log("left:"+ items[0].style.left +" = "+"basicLeft:"+items[0].basicLeft + " + "+"phase:" + phase);
   }
+
 
   // 再次使用User Timing API。这很值得学习
   // 能够很容易地自定义测量维度
