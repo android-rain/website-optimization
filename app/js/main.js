@@ -514,12 +514,11 @@ function updatePositions() {
   window.performance.mark("mark_start_frame");
 
   var items = document.querySelectorAll('.mover');
+  // body.scrollTop 在chrome canary版本中无效
+  var scrollTop = document.body.scrollTop + document.documentElement.scrollTop;
   for (var i = 0; i < items.length; i++) {
-    var phase = Math.sin(((document.body.scrollTop
-      + document.documentElement.scrollTop)/ 1250) + (i % 5));
+    var phase = Math.sin((scrollTop/ 1250) + (i % 5));
     items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
-    if (i === 0)
-      console.log("left:"+ items[0].style.left +" = "+"basicLeft:"+items[0].basicLeft + " + "+"phase:" + phase);
   }
 
 
