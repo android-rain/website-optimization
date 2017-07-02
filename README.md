@@ -3,3 +3,6 @@ gulp的配置文件是从qrcode项目中复制过来的，内容不完全懂，�
 所有图片本地化
 压缩图片
 使用pagespeed insight测试后，下载并替换在dist/img中的两个图片
+Leverage browser caching，放弃尝试，这个应该在服务器端配置
+Enable compression，已经使用gulp插件最小化了html和css文件，google还提示压缩？
+
