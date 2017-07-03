@@ -533,14 +533,19 @@ window.addEventListener('scroll', updatePositions);
 
 // 当页面加载时生成披萨滑窗
 document.addEventListener('DOMContentLoaded', function() {
-  var cols = 8;
+  var moverWidth = document.body.clientWidth;
+  var moverHeight = window.screen.availHeight ;
   var s = 256;
+  var cols = Math.floor(moverWidth / s) + 1;
+  var rows = Math.floor(moverHeight / s) + 1;
+  var moverNum = cols * rows;
+
   // 这个for循环在页面加载时创建并插入了所有的披萨
   var pizzasDiv = document.getElementById("randomPizzas");
-  for (var i = 2; i < 100; i++) {
+  for (var i = 2; i < 50; i++) {
     pizzasDiv.appendChild(pizzaElementGenerator(i));
   }
-  for (var i = 0; i < 200; i++) {
+  for (var i = 0; i < moverNum; i++) {
     var elem = document.createElement('img');
     elem.className = 'mover';
     elem.src = "img/pizza.png";

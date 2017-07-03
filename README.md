@@ -4,6 +4,8 @@
 3. 注册并恢复Google analytics功能
 4. 优化queryselector为getElementBy
 5. 使用原始pizza.png图片
+6. 优化移动pizzas，数量由可见窗口的大小决定
+7. 减少了randomPizzas的数量
 ## 项目优化解释
 #### 配置gulp工作流
 配置文件从以前的项目中复制过来，内容不完全懂，不过努力配置成本项目可用的工作流
