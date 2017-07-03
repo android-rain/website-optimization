@@ -1,7 +1,9 @@
-## Update
+## Update 1
 1. 修复首页第三幅图片未正确载入的问题
 2. inline CSS, 消除CRP阻塞
 3. 注册并恢复Google analytics功能
+4. 优化queryselector为getElementBy
+
 ## 项目优化解释
 #### 配置gulp工作流
 配置文件从以前的项目中复制过来，内容不完全懂，不过努力配置成本项目可用的工作流
