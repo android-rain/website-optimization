@@ -32,7 +32,7 @@ var site = '';
 
 // Lint JavaScript
 gulp.task('jshint', function() {
-  return gulp.src(['app/js/*.js', 'app/views/*.js'])
+  return gulp.src(['app/js/*.js', ])
     .pipe(reload({stream: true, once: true}))
     .pipe($.jshint())
     .pipe($.jshint.reporter('jshint-stylish'))

@@ -1,3 +1,15 @@
+# Instruction
+1. Check the site [WebsiteOptimization](https://android-rain.github.io/) and have a look
+2. How to run the app ?
+> In the `dist` folder, open a terminal then type `python -m SimpleHTTPServer 80`, and type `localhost:80` in your browser, and it works
+
+> Note: Python version is 2.×
+
+## Update 2
+1. Followed the suggestion, moved `phase` out of the for loop
+2. Fixed `pizzas` number to 100
+3. Added instructions
+4. Did not fixed the columns number to 8. IMO, it is too much on a mobile phone screen. My code could dislay a suitable columns number to adapt it to the different size of the screen.
 ## Update 1
 1. 修复首页第三幅图片未正确载入的问题
 2. inline CSS, 消除CRP阻塞

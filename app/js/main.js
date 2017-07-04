@@ -483,9 +483,14 @@ function updatePositions() {
   var items = document.getElementsByClassName("mover");
   // body.scrollTop 在chrome canary版本中无效
   var scrollTop = document.body.scrollTop + document.documentElement.scrollTop;
-  for (var i = 0; i < items.length; i++) {
-    var phase = Math.sin((scrollTop/ 1250) + (i % 5));
-    items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
+  var pahse = [];
+  for(var j = 0; j < 5; j++)
+  {
+    phase.push(Math.floor((Math.sin((scrollTop/ 1250) + j)) * 100));
+  }
+
+  for (var i = 0, len = items.length; i < len; i++) {
+    items[i].style.left = items[i].basicLeft + phase[i % 5] + 'px';
   }
 
 
@@ -513,8 +518,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // 这个for循环在页面加载时创建并插入了所有的披萨
   var pizzasDiv = document.getElementById("randomPizzas");
-  for (var i = 2; i < 100; i++) {
-    pizzasDiv.appendChild(pizzaElementGenerator(i));
+  for (var j = 2; j < 100; j++) {
+    pizzasDiv.appendChild(pizzaElementGenerator(j));
   }
   for (var i = 0; i < moverNum; i++) {
     var elem = document.createElement('img');
