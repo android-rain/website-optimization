@@ -418,35 +418,6 @@ var resizePizzas = function(size) {
 
   changeSliderLabel(size);
 
-   // 返回不同的尺寸以将披萨元素由一个尺寸改成另一个尺寸。由changePizzaSlices(size)函数调用
-   // 这个函数很逗，返回新尺寸和旧尺寸的百分比差值，在下一个函数中又用这个差值加上旧尺寸，
-   // 重新得到新尺寸。整个过程，单位从px变成%，又变成px，导师实在很努力。
-   // 修改： 删除此函数，尺寸调节放到下一个函数
-/*  function determineDx (elem, size) {
-    var oldWidth = elem.offsetWidth;
-    var windowWidth = document.getElementById("randomPizzas").offsetWidth;
-    var oldSize = oldWidth / windowWidth;
-
-    // 将值转成百分比宽度
-    function sizeSwitcher (size) {
-      switch(size) {
-        case "1":
-          return 0.25;
-        case "2":
-          return 0.3333;
-        case "3":
-          return 0.5;
-        default:
-          console.log("bug in sizeSwitcher");
-      }
-    }
-
-    var newSize = sizeSwitcher(size);
-    var dx = (newSize - oldSize) * windowWidth;
-
-    return dx;
-  }*/
-
   // 遍历披萨的元素并改变它们的宽度
   function changePizzaSizes(size) {
     // 将值转成百分比宽度
