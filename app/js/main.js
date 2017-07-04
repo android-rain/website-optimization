@@ -542,7 +542,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // 这个for循环在页面加载时创建并插入了所有的披萨
   var pizzasDiv = document.getElementById("randomPizzas");
-  for (var i = 2; i < 50; i++) {
+  for (var i = 2; i < 100; i++) {
     pizzasDiv.appendChild(pizzaElementGenerator(i));
   }
   for (var i = 0; i < moverNum; i++) {
