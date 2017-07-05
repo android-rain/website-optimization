@@ -483,7 +483,7 @@ function updatePositions() {
   var items = document.getElementsByClassName("mover");
   // body.scrollTop 在chrome canary版本中无效
   var scrollTop = document.body.scrollTop + document.documentElement.scrollTop;
-  var pahse = [];
+  var phase = [];
   for(var j = 0; j < 5; j++)
   {
     phase.push(Math.floor((Math.sin((scrollTop/ 1250) + j)) * 100));
